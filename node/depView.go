@@ -16,25 +16,6 @@ type DepView struct {
     Status string
 }
 
-func parseMap(m map[string]interface{}) {
-
-    //var l string
-    for k := range m {
-        fmt.Println("key name", k)
-    }
-
-    /*
-    p := &ProjNode {
-        Date  : "01/22/2016"
-        Division : ""
-        Name string
-        Status string
-        Team string
-    }
-    */
-}
-
-
 func countMap(i *int, l int, a []interface{}) {
     //p := *i
     for _, v := range a {
@@ -47,22 +28,6 @@ func countMap(i *int, l int, a []interface{}) {
         }
     }
 }
-
-/*
-func countM(i *int, a map[string]interface{}) {
-    fmt.Println("name : ", a["name"])
-    e := a["dependencies"].([]interface{})
-    for _, v := range e {
-        d := v.(map[string]interface{})
-        fmt.Println("map it : i: ", *i , " dx: ", d)
-        *i++
-        m := d["dependencies"].([]interface{})
-        if len(m) > 0 {
-            countM(i, d)
-        }
-    }
-}
-*/
 
 func NewDepView(fileName string) (*DepView, error){
     b, _ := ioutil.ReadFile(fileName)
@@ -91,7 +56,7 @@ func NewDepView(fileName string) (*DepView, error){
     countMap(&c, 0, d)
 
     //t := c + 1
-    //fmt.Println("t : ", c)
+    fmt.Println("t : ", c)
 
     /*
     fmt.Printf("JSON %T \n", v)

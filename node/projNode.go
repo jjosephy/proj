@@ -10,4 +10,5 @@ type ProjNode struct {
     Name string
     Status string
     Team string
+    Parent int
 }
