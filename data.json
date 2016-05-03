@@ -1,0 +1,42 @@
+{
+    "name":"Loyalty",
+    "team":"Loyalty",
+    "division":"Loyalty",
+    "date": "Date",
+    "status": "Status",
+    "dependecies": [
+        {
+            "name":"GiftCard",
+            "team":"GiftCard",
+            "division":"Loyalty",
+            "date": "Date",
+            "status": "Status",
+            "dependencies": [
+                {
+                    "name":"D&S",
+                    "team":"Product",
+                    "division":"D&S",
+                    "date": "DATE",
+                    "status": "Green",
+                    "dependencies": []
+                }
+            ]
+        },
+        {
+            "name":"Web",
+            "team":"Web",
+            "division":"S&E",
+            "date": "Date",
+            "status": "Status",
+            "dependencies": []
+        },
+        {
+            "name":"Mobile",
+            "team":"Mobile",
+            "division":"S&E",
+            "date": "Date",
+            "status": "Status",
+            "dependencies": []
+        }
+    ]
+}
