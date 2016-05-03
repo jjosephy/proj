@@ -1,31 +1,42 @@
 package node
 
 import (
+    "container/list"
     "encoding/json"
-    "fmt"
     "io/ioutil"
-
+    "fmt"
     "github.com/jjosephy/go/ds/graph"
 )
 
 type DepView struct {
-    graph *graph.DirectedGraph
+    Graph *graph.DirectedGraph
     dNodes []ProjNode
     ProjectName string
     Date string
     Status string
 }
 
-func countMap(i *int, l int, a []interface{}) {
-    //p := *i
+func countMap(i *int, l int, lst *list.List, a []interface{}) {
     for _, v := range a {
         d := v.(map[string]interface{})
-        fmt.Println("i: ", *i , " p: ", l, " d: ", d)
+        p := newProjNode(d, l)
+        lst.PushBack(p)
         *i++
         m := d["dependencies"].([]interface{})
         if len(m) > 0 {
-            countMap(i, *i - 1, m)
+            countMap(i, *i - 1, lst, m)
         }
+    }
+}
+
+func newProjNode(m map[string]interface{}, p int) (*ProjNode){
+    return &ProjNode {
+        Date : m["date"].(string),
+        Division : m["division"].(string),
+        Name : m["name"].(string),
+        Parent: p,
+        Status : m["status"].(string),
+        Team : m["team"].(string),
     }
 }
 
@@ -40,51 +51,43 @@ func NewDepView(fileName string) (*DepView, error){
 
     c := 1
     m := v.(map[string]interface{})
+    l := list.New()
     //root node
-    /*
-    p := &ProjNode {
-        Date : m["date"].(string),
-        Division : m["division"].(string),
-        Name : m["name"].(string),
-        Status : m["status"].(string),
-        Team : m["team"].(string),
-    }
-    */
-    //fmt.Printf("p : %v \n", p)
+    p := newProjNode(m, -1)
+    l.PushBack(p)
+    countMap(&c, 0, l, m["dependencies"].([]interface{}))
 
-    d := m["dependencies"].([]interface{})
-    countMap(&c, 0, d)
-
-    //t := c + 1
-    fmt.Println("t : ", c)
-
-    /*
-    fmt.Printf("JSON %T \n", v)
-    m := v.(map[string]interface{})
-    d := m["dependecies"].([]interface{})
-
-    i := 0
-    countMap(&i, d)
-
-    fmt.Println("count : ", i + 1)
-    */
-    /*
-    i := len(m)
+    i := l.Len()
     g, e := graph.NewDirectedGraph(i)
 
     if e != nil {
         return nil, e
     }
 
-    d := make([]ProjNode, i)
+    dNode := make([]ProjNode, i)
+    ix := 0
+    for e := l.Front(); e != nil; e = e.Next() {
+        var ptr *ProjNode
+        ptr = e.Value.(*ProjNode)
+        fmt.Printf("err %v \n", p.Parent)
+        /*
+        if ptr.Parent != -1 {
+            err := g.AddEdge(ix, p.Parent)
+            if err != nil {
 
-    parseMap(m)
+            }
+        }
+        */
+        dNode[ix] = *ptr
+        ix++
+    }
 
-    return &DepView{
-        graph : g,
-        dNodes : d,
-    }, nil
-    */
 
-    return nil, nil
+
+    view := &DepView{
+        Graph : g,
+        dNodes : dNode,
+    }
+
+    return view, nil
 }
