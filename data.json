@@ -2,22 +2,30 @@
     "name":"Loyalty",
     "team":"Loyalty",
     "division":"Loyalty",
-    "date": "Date",
+    "date": "05/18/2016",
     "status": "Status",
-    "dependecies": [
+    "dependencies": [
         {
             "name":"GiftCard",
             "team":"GiftCard",
             "division":"Loyalty",
             "date": "Date",
-            "status": "Status",
+            "status": "05/01/2016",
             "dependencies": [
                 {
                     "name":"D&S",
                     "team":"Product",
                     "division":"D&S",
-                    "date": "DATE",
+                    "date": "03/23/16",
                     "status": "Green",
+                    "dependencies": []
+                },
+                {
+                    "name":"D&S",
+                    "team":"Product",
+                    "division":"D&S",
+                    "date": "03/30/16",
+                    "status": "Red",
                     "dependencies": []
                 }
             ]
@@ -26,15 +34,35 @@
             "name":"Web",
             "team":"Web",
             "division":"S&E",
-            "date": "Date",
+            "date": "04/01/2016",
             "status": "Status",
-            "dependencies": []
+            "dependencies": [
+                {
+                    "name":"D&S",
+                    "team":"Customer",
+                    "division":"D&S",
+                    "date": "03/15/16",
+                    "status": "Yellow",
+                    "dependencies": [
+                        {
+                            "name":"NGEN",
+                            "team":"MOM",
+                            "division":"Merch",
+                            "date": "03/01/16",
+                            "status": "Yellow",
+                            "dependencies": [
+
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         {
             "name":"Mobile",
             "team":"Mobile",
             "division":"S&E",
-            "date": "Date",
+            "date": "04/12/2016",
             "status": "Status",
             "dependencies": []
         }

@@ -17,7 +17,7 @@ func main() {
     if err != nil {
         fmt.Errorf("error %s", err)
     } else {
-        fmt.Printf("d %v", n)
+        fmt.Printf("main :  %v", n)
     }
 
     fmt.Println()

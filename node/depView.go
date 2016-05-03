@@ -34,31 +34,35 @@ func parseMap(m map[string]interface{}) {
     */
 }
 
-func countMap(i *int, a []interface{}) {
+
+func countMap(i *int, l int, a []interface{}) {
+    //p := *i
     for _, v := range a {
         d := v.(map[string]interface{})
-        fmt.Println("i: ", *i , " d: ", d)
+        fmt.Println("i: ", *i , " p: ", l, " d: ", d)
         *i++
         m := d["dependencies"].([]interface{})
         if len(m) > 0 {
-            countMap(i, m)
+            countMap(i, *i - 1, m)
         }
     }
 }
 
+/*
 func countM(i *int, a map[string]interface{}) {
     fmt.Println("name : ", a["name"])
-    e := a["dependecies"].([]interface{})
+    e := a["dependencies"].([]interface{})
     for _, v := range e {
         d := v.(map[string]interface{})
-        fmt.Println("map it : i: ", *i , " d: ", d)
+        fmt.Println("map it : i: ", *i , " dx: ", d)
         *i++
         m := d["dependencies"].([]interface{})
         if len(m) > 0 {
-            countMap(i, m)
+            countM(i, d)
         }
     }
 }
+*/
 
 func NewDepView(fileName string) (*DepView, error){
     b, _ := ioutil.ReadFile(fileName)
@@ -69,8 +73,25 @@ func NewDepView(fileName string) (*DepView, error){
         return nil, err
     }
 
-    c := 0
-    countM(&c, v.(map[string]interface{}))
+    c := 1
+    m := v.(map[string]interface{})
+    //root node
+    /*
+    p := &ProjNode {
+        Date : m["date"].(string),
+        Division : m["division"].(string),
+        Name : m["name"].(string),
+        Status : m["status"].(string),
+        Team : m["team"].(string),
+    }
+    */
+    //fmt.Printf("p : %v \n", p)
+
+    d := m["dependencies"].([]interface{})
+    countMap(&c, 0, d)
+
+    //t := c + 1
+    //fmt.Println("t : ", c)
 
     /*
     fmt.Printf("JSON %T \n", v)
@@ -99,5 +120,6 @@ func NewDepView(fileName string) (*DepView, error){
         dNodes : d,
     }, nil
     */
+
     return nil, nil
 }
