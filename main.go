@@ -29,9 +29,12 @@ func main() {
     */
     fmt.Println("------------------")
     for i := 0; i < len(n.Nodes); i++ {
+        fmt.Println("Project", n.Nodes[i])
+        fmt.Println("-- Dependencies --")
         l, _ := n.Graph.Adjacent(i)
         for e := l.Front(); e != nil; e = e.Next() {
-            fmt.Println("x ", i, " y ", e.Value)
+            fmt.Println("Dep: ", n.Nodes[e.Value.(int)])
         }
+        fmt.Println("")
 	}
 }
