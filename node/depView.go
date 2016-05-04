@@ -10,7 +10,7 @@ import (
 
 type DepView struct {
     Graph *graph.DirectedGraph
-    dNodes []ProjNode
+    Nodes []ProjNode
     ProjectName string
     Date string
     Status string
@@ -43,9 +43,7 @@ func newProjNode(m map[string]interface{}, p int) (*ProjNode){
 func NewDepView(fileName string) (*DepView, error){
     b, _ := ioutil.ReadFile(fileName)
     var v interface{}
-    err := json.Unmarshal(b, &v)
-
-    if err != nil {
+    if err := json.Unmarshal(b, &v); err != nil {
         return nil, err
     }
 
@@ -58,35 +56,29 @@ func NewDepView(fileName string) (*DepView, error){
     countMap(&c, 0, l, m["dependencies"].([]interface{}))
 
     i := l.Len()
+    dNode := make([]ProjNode, i)
     g, e := graph.NewDirectedGraph(i)
-
     if e != nil {
         return nil, e
     }
 
-    dNode := make([]ProjNode, i)
     ix := 0
     for e := l.Front(); e != nil; e = e.Next() {
         var ptr *ProjNode
         ptr = e.Value.(*ProjNode)
-        fmt.Printf("err %v \n", p.Parent)
-        /*
         if ptr.Parent != -1 {
-            err := g.AddEdge(ix, p.Parent)
-            if err != nil {
-
+            fmt.Println("x ", ptr.Parent, " y ", ix)
+            if err := g.AddEdge(ptr.Parent, ix); err != nil {
+                return nil, err
             }
         }
-        */
         dNode[ix] = *ptr
         ix++
     }
 
-
-
     view := &DepView{
         Graph : g,
-        dNodes : dNode,
+        Nodes : dNode,
     }
 
     return view, nil

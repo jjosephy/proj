@@ -5,7 +5,7 @@ import (
 
     "github.com/jjosephy/projview/node"
     //"github.com/jjosephy/go/ds/graph"
-    //"os"
+    "os"
 )
 
 
@@ -13,10 +13,25 @@ func main() {
     fmt.Println("projview")
 
     n, err := node.NewDepView("data.json")
+    if err != nil {
+        fmt.Errorf("error %s", err)
+        os.Exit(1)
+    }
 
+    /*
+    l, _ := n.Graph.Adjacent(0)
+    p := n.Nodes[0]
     if err != nil {
         fmt.Errorf("error %s", err)
     } else {
-        fmt.Printf("main :  %v", n.Graph)
+        fmt.Printf("main :  %v \n n %v \n", l, p)
     }
+    */
+    fmt.Println("------------------")
+    for i := 0; i < len(n.Nodes); i++ {
+        l, _ := n.Graph.Adjacent(i)
+        for e := l.Front(); e != nil; e = e.Next() {
+            fmt.Println("x ", i, " y ", e.Value)
+        }
+	}
 }
